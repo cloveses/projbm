@@ -6,10 +6,11 @@ from db_mod import *
 # 运行完后对转学记录中身份证号为空的学生进行查询和审查
 
 # zhtype=1  县外转入              outzh=1 
-# zhtype=2  县外转入且县内转入    outzh=2
+# zhtype=2  县外转入且县内转学    outzh=2
 # zhtype=3  县内有转学            localzh=1
 # zhtype=4  无转学记录            ouzh=None and localzh=None
-# zhtype=0  历届学生
+# zhtype=0  无应届学籍学生审查时视为历届生（包括外省学生回乡报考和历届生）
+#           外省回乡报考的应届只能由招办依照考生提供的材料审查
 
 # 审查时注意：
 # 转学代码不是1或2，但从招办报名的；
