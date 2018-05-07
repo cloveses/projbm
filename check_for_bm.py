@@ -47,7 +47,7 @@ def set_signall_zhtype():
 
 @db_session
 def get_datas():
-    data_title = ['中考报名号','姓名','性别','身份证号','学校','定向与否','备注']
+    data_title = ['中考报名号','姓名','性别','身份证号','学校','班级代码','定向与否','备注']
 
     all_datas = [data_title,]
 
@@ -60,12 +60,12 @@ def get_datas():
         datas = datas[:1]
 
         # 获取享受定向的应届生名单
-        query = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+        query = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
             for s in SignAll if s.zhtype==4 and s.sch==sch)[:]
         datas.extend(query)
 
         # 获取应届生因有县转学记录而不享受定向名单
-        zh_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+        zh_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
             for s in SignAll if s.zhtype==3 and s.sch==sch)[:]
         zh_datas = [list(zh_data) for zh_data in zh_datas]
         for zh_data  in zh_datas:
@@ -73,7 +73,7 @@ def get_datas():
         datas.extend(zh_datas)
 
         #获取历届生而不享受定向名单
-        pr_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+        pr_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
             for s in SignAll if s.zhtype==0 and s.sch==sch)[:]
         pr_datas = [list(pr_data) for pr_data in pr_datas]
         for pr_data in pr_datas:
@@ -87,18 +87,18 @@ def get_datas():
 
     sch = '泗县招生办'
     datas = datas[:1]
-    query = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+    query = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
         for s in SignAll if s.zhtype !=2 and s.zhtype !=0 and s.sch==sch)[:]
     datas.extend(query)
 
-    zh_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+    zh_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
         for s in SignAll if s.zhtype==2)[:]
     zh_datas = [list(zh_data) for zh_data in zh_datas]
     for zh_data in zh_datas:
         zh_data.extend(('不享受定向','应届同时有县外、县内转学记录'))
     datas.extend(zh_datas)
 
-    pr_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch] 
+    pr_datas = select([s.signid,s.name,s.sex,s.idcode,s.sch,s.classcode] 
         for s in SignAll if s.zhtype==0 and s.sch==sch)[:]
     pr_datas = [list(pr_data) for pr_data in pr_datas]
     for pr_data in pr_datas:

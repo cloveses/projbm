@@ -63,8 +63,9 @@ class SignAll(db.Entity):
     idcode = Required(str)
     sch = Required(str)
     schcode = Required(str)
-    graduation_year = Required(str)
+    graduation_year = Optional(str)
     zhtype = Optional(int,nullable = True)
+    classcode = Optional(str,nullable = True)
     # 1 县外转入，2 县外转入，县内转
     # 3 县内转学，4 无转学记录
     # 0 非应届生
