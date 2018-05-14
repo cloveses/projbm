@@ -30,7 +30,7 @@ def save_datas_xlsx(filename,datas):
 @db_session
 def set_signall_zhtype():
     for stud in SignAll.select():
-        gradey18 = select(s for s in GradeY18 if s.idcode==stud.idcode).first()
+        gradey18 = select(s for s in GradeY18 if s.idcode.lower()==stud.idcode.lower()).first()
         if gradey18:
             if gradey18.outzh == 1:
                 stud.zhtype = 1
