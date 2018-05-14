@@ -75,13 +75,13 @@ def get_zh_recos(stud):
     if stud.idcode:
         # 依据现身份证
         zhs = select(zh for zh in StudZhAll 
-            if zh.idcode == stud.idcode)[:]
+            if zh.idcode.upper() == stud.idcode.upper())[:]
         if zhs:
             zh_recos.extend(zhs)
         # 依据曾用身份证
         if stud.oidcode:
             zhs = select(zh for zh in StudZhAll
-                if zh.idcode == stud.oidcode)[:]
+                if zh.idcode.upper() == stud.oidcode.upper())[:]
             if zhs:
                 zh_recos.extend(zhs)
     else:
