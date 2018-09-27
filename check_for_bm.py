@@ -1,3 +1,4 @@
+import datetime
 from db_mod import *
 
 # 对参加中考报名的全部中考报名考生进行资格审查
@@ -42,6 +43,9 @@ def set_signall_zhtype():
                 stud.zhtype = 4
         else:
             stud.zhtype = 0
+            year = datetime.datetime.now().year
+            if int(stud.graduation_year) != year % 100:
+                print('审查届别与报名届别不一致，注意核查：',stud.idcode,stud.name,stud.sch)
             # 查不到身份证号，即为历届生
             # print(stud.idcode,stud.name,'no find.')
 
