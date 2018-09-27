@@ -33,6 +33,8 @@ def gath_data(tab_obj,ks,chg_dir,grid_end=1,start_row=1):
         for i in range(start_row,nrows-grid_end):
             datas = ws.row_values(i)
             datas = {k:v for k,v in zip(ks,datas) if v}
+            if 'graduation_year' in datas:
+                datas['graduation_year'] = str(int(datas['graduation_year']))
             tab_obj(**datas)
 
 if __name__ == '__main__':
