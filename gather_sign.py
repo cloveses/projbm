@@ -37,8 +37,33 @@ def gath_data(tab_obj,ks,chg_dir,grid_end=1,start_row=1):
                 datas['graduation_year'] = str(int(datas['graduation_year']))
             tab_obj(**datas)
 
+def check_idcode(stud):
+    '''身份证号验证程序'''
+    idcode = stud.idcode
+    checkcodes = ['1', '0', 'X','9', '8', '7', '6', '5', '4', '3', '2']
+    wi = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2]
+    s = sum((i*int(j) for i,j in zip(wi,idcode[:-1])))
+    checkcode = checkcodes[s % 11]
+    ck = idcode[-1].upper()
+    if checkcode != ck:
+        return '校验出错！'
+    if int(idcode[-2]) % 2 == 0 and stud.sex == '男':
+        return '性别码出错！'
+    if int(idcode[-2]) % 2 == 1 and stud.sex == '女':
+        return '性别码出错！'
+
+@db_session
+def check_stud_idcode():
+    print('身份证号码校验错误信息：')
+    for s in select(s for s in SignAll):
+        if s.idcode and s.idcode[:-1].isdigit():
+            ret = check_idcode(s)
+            if ret:
+                print(ret,':',s.sch,s.name,s.idcode,s.sex)
+
 if __name__ == '__main__':
     db.bind(**DB_PARAMS)
     db.generate_mapping(create_tables=True)
 
     gath_data(SignAll,SIGN_KS,'signall',0) # 末尾行无多余数据
+    check_stud_idcode()
