@@ -30,9 +30,12 @@ def save_datas_xlsx(filename,datas):
 
 @db_session
 def set_signall_zhtype():
+    year = datetime.datetime.now().year % 100
     for stud in SignAll.select():
         gradey18 = select(s for s in GradeY18 if s.idcode.upper()==stud.idcode.upper()).first()
         if gradey18:
+            if int(stud.graduation_year) != year:
+                print('审查应届与报名历届，需核查：',stud.idcode,stud.name,stud.sch)
             if gradey18.outzh == 1:
                 stud.zhtype = 1
             elif gradey18.outzh == 2:
@@ -43,9 +46,8 @@ def set_signall_zhtype():
                 stud.zhtype = 4
         else:
             stud.zhtype = 0
-            year = datetime.datetime.now().year
-            if int(stud.graduation_year) != year % 100:
-                print('审查届别与报名届别不一致，注意核查：',stud.idcode,stud.name,stud.sch)
+            if int(stud.graduation_year) == year:
+                print('审查历届与报名应届，需核查：',stud.idcode,stud.name,stud.sch)
             # 查不到身份证号，即为历届生
             # print(stud.idcode,stud.name,'no find.')
 
