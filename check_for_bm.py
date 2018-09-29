@@ -35,7 +35,7 @@ def set_signall_zhtype():
         gradey18 = select(s for s in GradeY18 if s.idcode.upper()==stud.idcode.upper()).first()
         if gradey18:
             if int(stud.graduation_year) != year:
-                print('审查应届与报名历届，需核查：',stud.idcode,stud.name,stud.sch)
+                print('审查 应届,报名为历届，需核查：',stud.idcode,stud.name,stud.sch)
             if gradey18.outzh == 1:
                 stud.zhtype = 1
             elif gradey18.outzh == 2:
@@ -47,7 +47,7 @@ def set_signall_zhtype():
         else:
             stud.zhtype = 0
             if int(stud.graduation_year) == year:
-                print('审查历届与报名应届，需核查：',stud.idcode,stud.name,stud.sch)
+                print('审查 历届,报名为应届，需核查：',stud.idcode,stud.name,stud.sch)
             # 查不到身份证号，即为历届生
             # print(stud.idcode,stud.name,'no find.')
 
